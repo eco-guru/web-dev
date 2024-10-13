@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Theme } from "../../shared/theme.js";
 import Link from "next/link.js";
@@ -5,8 +7,35 @@ import InputCheckbox from "../../components/input/checkbox/checkbox.jsx";
 import InputSubmit from "../../components/input/submit/submit.jsx";
 import InputText from "../../components/input/text/text.jsx";
 import InputPassword from "../../components/input/password/password.jsx";
+import { useState } from "react";
+
+// import services
+import { createUser } from "../../../lib/services/api/user/user-api-service.js";
 
 export default function SignUpPage() {
+  // create user data
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await createUser(
+        e,
+        username,
+        password,
+        confirmPassword,
+        phone
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error create user:", error);
+      throw error;
+    }
+  };
+
   return (
     <>
       {/* bagian kiri */}
@@ -49,27 +78,40 @@ export default function SignUpPage() {
           <p className="text-3xl font-extrabold px-2">or</p>
           <hr className="w-[50%]" />
         </div>
-        <form action="" className="flex flex-col gap-5">
+        <form
+          action=""
+          onSubmit={(e) => handleSubmit(e)}
+          className="flex flex-col gap-5"
+        >
           <InputText
             id={"username"}
             placeholder={"Username"}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             error={"username is required"}
           />
           <InputText
             id={"phone"}
             placeholder={"Phone Number"}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             error={"phone is required"}
           />
           <InputPassword
             id={"password"}
             placeholder={"Password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             error={"password is required"}
           />
           <InputPassword
             id={"confirmPassword"}
             placeholder={"Confirm Password"}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             error={"confirm password is required"}
           />
+          {/* TODO: agreement checkbox */}
           {/* agreement */}
           <InputCheckbox id={"agreement"}>
             I agree to platforms{" "}
