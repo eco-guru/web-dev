@@ -1,30 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import SecondaryButton from "../../components/button/secondary/secondary-button.jsx";
-import InputTextValue from "../../components/input/text/text-value.jsx";
-import ButtonSave from "../../components/button/save/save-button.jsx";
+import SecondaryButton from "../../../components/button/secondary/secondary-button.jsx";
+import InputTextValue from "../../../components/input/text/text-value.jsx";
+import ButtonSave from "../../../components/button/save/save-button.jsx";
 import { useState, useEffect } from "react";
-import ButtonLogout from "../../components/button/logout/logout.jsx";
-import { useRouter } from "next/navigation.js";
+import ButtonLogout from "../../../components/button/logout/logout.jsx";
+import { useParams, useSearchParams } from "next/navigation";
+import { getUser } from "../../../../lib/services/api/user/user-api-service.js";
 
 export default function ProfilePage() {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const params = useParams();
+  const token = useSearchParams().get("token");
+
+  const [userData, setUserData] = useState({});
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("userData"));
-    // console.log(data.data);
-
-    if (data) {
-      setUsername(data.data.username);
-      setPhone(data.data.phone);
-      if (data.data.address) {
-        setAddress(data.data.address);
+    const fetchData = async () => {
+      if (token && params.username) {
+        try {
+          const res = await getUser({ username: params.username, token });
+          setUserData(res.data); // Mengatur data user dari response
+        } catch (error) {
+          setError(error.message);
+        }
       }
-    }
-  }, []); // <- Empty array ensures this useEffect runs only once
+    };
+
+    fetchData();
+  }, [params, token]);
+
+  // console.log(userData, error);
 
   return (
     <div className="border rounded-xl px-14 py-8 shadow-lg">

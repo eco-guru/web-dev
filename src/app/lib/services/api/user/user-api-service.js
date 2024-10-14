@@ -1,8 +1,8 @@
-'use server'
+"use server";
 
 import { api } from "../api";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { permanentRedirect } from "next/navigation";
 
 export const createUser = async (
   e,
@@ -28,8 +28,7 @@ export const createUser = async (
   }
 };
 
-export const loginUser = async (e, username, password) => {
-  e.preventDefault();
+export const loginUser = async (username, password) => {
   try {
     const response = await api.post("/users/login", {
       username: username,
@@ -37,10 +36,11 @@ export const loginUser = async (e, username, password) => {
     });
 
     // console.log(response);
-    return response;
+    permanentRedirect(
+      `/user/profile/${response.data.data.username}?token=${response.data.data.token}`
+    );
   } catch (error) {
-    console.error("Error uhuy login user:", error);
-    return error;
+    throw error;
   }
 };
 
@@ -54,12 +54,18 @@ export const logOut = async () => {
   }
 };
 
-export const getUser = async () => {
+export const getUser = async ({ username, token }) => {
   try {
-    const response = await api.get("/users");
-    return response;
+    const response = await api.get("/users/current", { 
+      headers: {
+        Authorization: `${token}`,
+      },
+      params: {
+        username: username,
+      },
+     });
+    return response; // Pastikan mengembalikan data dari response
   } catch (error) {
-    console.error("Error uhuy get user:", error);
-    return error;
+    throw error;
   }
 };
