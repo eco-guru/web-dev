@@ -26,7 +26,6 @@ export default function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await createUser(
-      e,
       username,
       password,
       confirmPassword,
@@ -133,7 +132,12 @@ export default function SignUpPage() {
         </form>
       </div>
       {/* modal alert */}
-      <CreateUserAlert active={alert} success={status} error={error} setAlert={setAlert} />
+      <CreateUserAlert
+        active={alert}
+        success={status}
+        error={error}
+        setAlert={setAlert}
+      />
     </>
   );
 }
