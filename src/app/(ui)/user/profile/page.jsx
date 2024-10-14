@@ -1,40 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import SecondaryButton from "../../../components/button/secondary/secondary-button.jsx";
-import InputTextValue from "../../../components/input/text/text-value.jsx";
-import ButtonSave from "../../../components/button/save/save-button.jsx";
+import SecondaryButton from "../../components/button/secondary/secondary-button.jsx";
+import InputTextValue from "../../components/input/text/text-value.jsx";
+import ButtonSave from "../../components/button/save/save-button.jsx";
 import { useState, useEffect } from "react";
-import ButtonLogout from "../../../components/button/logout/logout.jsx";
-import { useParams, useSearchParams } from "next/navigation";
-import { getUser } from "../../../../lib/services/api/user/user-api-service.js";
+import ButtonLogout from "../../components/button/logout/logout.jsx";
+import { useSearchParams } from "next/navigation";
+import { getUser } from "../../../lib/services/api/user/user-api-service.js";
 
 export default function ProfilePage() {
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const params = useParams();
   const token = useSearchParams().get("token");
+  const username = useSearchParams().get("username");
 
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    username: "",
+    phone: "",
+    token: "",
+    profile_picture: "",
+  });
   const [error, setError] = useState("");
 
+  const fetchData = async () => {
+    try {
+      const res = await getUser({ username: username, token: token });
+      setUserData(res.data); // Mengatur data user dari response
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (token && params.username) {
-        try {
-          const res = await getUser({ username: params.username, token });
-          setUserData(res.data); // Mengatur data user dari response
-        } catch (error) {
-          setError(error.message);
-        }
-      }
-    };
-
     fetchData();
-  }, [params, token]);
+  }, []);
 
-  // console.log(userData, error);
+  console.log("userdata: ", userData);
 
   return (
     <div className="border rounded-xl px-14 py-8 shadow-lg">
@@ -72,21 +72,21 @@ export default function ProfilePage() {
           id={"username"}
           label={"Username"}
           onChange={(e) => setUsername(e.target.value)}
-          value={username}
+          value={userData.username}
         />
         {/* no handphone */}
         <InputTextValue
           id={"no handphone"}
           label={"No Handphone"}
           onChange={(e) => setPhone(e.target.value)}
-          value={phone}
+          value={userData.phone}
         />
         {/* alamat */}
         <InputTextValue
           id={"alamat"}
           label={"Alamat"}
           onChange={(e) => setAddress(e.target.value)}
-          value={address}
+          value={userData.address}
         />
         {/* save button */}
         <div className="mt-20 w-full flex justify-end gap-10">

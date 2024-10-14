@@ -10,7 +10,6 @@ import InputPassword from "../../components/input/password/password.jsx";
 import ErrorLoginAlert from "../../components/modal/error-login-alert.jsx";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter untuk navigasi
 import { loginUser } from "../../../lib/services/api/user/user-api-service.js";
 
 export default function SignInPage() {
@@ -19,7 +18,6 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // Untuk menyimpan pesan error
   const [alert, setAlert] = useState(false); // Untuk menyimpan status alert
-  const router = useRouter(); // Inisialisasi useRouter
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -33,9 +33,10 @@ export const loginUser = async (username, password) => {
       password: password,
     });
 
-    // console.log(response);
+    console.log("response uhuy: ", response.status, response.data);
+
     permanentRedirect(
-      `/user/profile/${response.data.data.username}?token=${response.data.data.token}`
+      `/user/profile?username=${response.data.data.username}&token=${response.data.data.token}`
     );
   } catch (error) {
     throw error;
@@ -56,13 +57,13 @@ export const getUser = async ({ username, token }) => {
   try {
     const response = await api.get("/users/current", {
       headers: {
-        Authorization: `${token}`,
+        Authorization: token,
       },
       params: {
         username: username,
       },
     });
-    return response; // Pastikan mengembalikan data dari response
+    return { status: response.status, data: response.data.data };
   } catch (error) {
     throw error;
   }
