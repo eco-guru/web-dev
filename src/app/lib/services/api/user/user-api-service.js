@@ -17,12 +17,12 @@ export const createUser = async (
       confirmPassword: confirmPassword,
       phone: phone,
     });
+    console.log("response uhuy: ", response.status, response.data);
 
-    // console.log(response);
-    return response;
+    return { status: response.status, data: response.data.data };
   } catch (error) {
-    console.error("Error uhuy create user:", error);
-    return error;
+    console.error("Error uhuy:", error.message);
+    return error.message;
   }
 };
 

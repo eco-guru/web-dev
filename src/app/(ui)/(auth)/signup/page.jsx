@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { Theme } from "../../shared/theme.js";
 import Link from "next/link.js";
@@ -15,33 +14,47 @@ import { createUser } from "../../../lib/services/api/user/user-api-service.js";
 
 export default function SignUpPage() {
   // create user data
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+  });
   const [alert, setAlert] = useState(false);
   const [status, setStatus] = useState(false);
   const [error, setError] = useState("");
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await createUser(
-      username,
-      password,
-      confirmPassword,
-      phone
-    );
+    try {
+      const response = await createUser(
+        formData.username,
+        formData.password,
+        formData.confirmPassword,
+        formData.phone
+      );
 
-    console.log(response, response.status);
-
-    // munculin alert
-    if (response.status === 201 || response.status === 200) {
-      setAlert(true);
-      setStatus(true);
-    } else {
+      console.log("response ahay: ", response);
+      if (response.status === 201 || response.status === 200) {
+        setAlert(true);
+        setStatus(true);
+      } else {
+        setAlert(true);
+        setStatus(false);
+        setError(response);
+      }
+    } catch (error) {
       setAlert(true);
       setStatus(false);
-      setError(response.message);
+      console.log("error: ", error);
+
+      setError(`error client ${error}`);
     }
   };
 
@@ -87,37 +100,33 @@ export default function SignUpPage() {
           <p className="text-3xl font-extrabold px-2">or</p>
           <hr className="w-[50%]" />
         </div>
-        <form
-          action=""
-          onSubmit={(e) => handleSubmit(e)}
-          className="flex flex-col gap-5"
-        >
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <InputText
             id={"username"}
             placeholder={"Username"}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={formData.username}
+            onChange={handleChange}
             error={"username is required"}
           />
           <InputText
             id={"phone"}
             placeholder={"Phone Number"}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={formData.phone}
+            onChange={handleChange}
             error={"phone is required"}
           />
           <InputPassword
             id={"password"}
             placeholder={"Password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             error={"password is required"}
           />
           <InputPassword
             id={"confirmPassword"}
             placeholder={"Confirm Password"}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={formData.confirmPassword}
+            onChange={handleChange}
             error={"confirm password is required"}
           />
           {/* TODO: agreement checkbox */}
