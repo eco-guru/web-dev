@@ -1,15 +1,15 @@
+"use server";
+
 import { api } from "../api";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { permanentRedirect } from "next/navigation";
 
 export const createUser = async (
-  e,
   username,
   password,
   confirmPassword,
   phone
 ) => {
-  e.preventDefault();
   try {
     const response = await api.post("/users", {
       username: username,
@@ -17,12 +17,12 @@ export const createUser = async (
       confirmPassword: confirmPassword,
       phone: phone,
     });
+    console.log("response uhuy: ", response.status, response.data);
 
-    // console.log(response);
-    return response;
+    return { status: response.status, data: response.data.data };
   } catch (error) {
-    console.error("Error uhuy create user:", error);
-    return error;
+    console.error("Error uhuy:", error.message);
+    return error.message;
   }
 };
 
@@ -33,11 +33,13 @@ export const loginUser = async (username, password) => {
       password: password,
     });
 
-    // console.log(response);
-    return response;
+    console.log("response uhuy: ", response.status, response.data);
+
+    permanentRedirect(
+      `/user/profile?username=${response.data.data.username}&token=${response.data.data.token}`
+    );
   } catch (error) {
-    console.error("Error uhuy login user:", error);
-    return error;
+    throw error;
   }
 };
 
@@ -51,12 +53,18 @@ export const logOut = async () => {
   }
 };
 
-export const getUser = async () => {
+export const getUser = async ({ username, token }) => {
   try {
-    const response = await api.get("/users");
-    return response;
+    const response = await api.get("/users/current", {
+      headers: {
+        Authorization: token,
+      },
+      params: {
+        username: username,
+      },
+    });
+    return { status: response.status, data: response.data.data };
   } catch (error) {
-    console.error("Error uhuy get user:", error);
-    return error;
+    throw error;
   }
 };

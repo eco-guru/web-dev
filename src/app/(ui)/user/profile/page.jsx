@@ -6,25 +6,35 @@ import InputTextValue from "../../components/input/text/text-value.jsx";
 import ButtonSave from "../../components/button/save/save-button.jsx";
 import { useState, useEffect } from "react";
 import ButtonLogout from "../../components/button/logout/logout.jsx";
-import { useRouter } from "next/navigation.js";
+import { useSearchParams } from "next/navigation";
+import { getUser } from "../../../lib/services/api/user/user-api-service.js";
 
 export default function ProfilePage() {
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const token = useSearchParams().get("token");
+  const username = useSearchParams().get("username");
+
+  const [userData, setUserData] = useState({
+    username: "",
+    phone: "",
+    token: "",
+    profile_picture: "",
+  });
+  const [error, setError] = useState("");
+
+  const fetchData = async () => {
+    try {
+      const res = await getUser({ username: username, token: token });
+      setUserData(res.data); // Mengatur data user dari response
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("userData"));
-    // console.log(data.data);
+    fetchData();
+  }, []);
 
-    if (data) {
-      setUsername(data.data.username);
-      setPhone(data.data.phone);
-      if (data.data.address) {
-        setAddress(data.data.address);
-      }
-    }
-  }, []); // <- Empty array ensures this useEffect runs only once
+  console.log("userdata: ", userData);
 
   return (
     <div className="border rounded-xl px-14 py-8 shadow-lg">
@@ -62,21 +72,21 @@ export default function ProfilePage() {
           id={"username"}
           label={"Username"}
           onChange={(e) => setUsername(e.target.value)}
-          value={username}
+          value={userData.username}
         />
         {/* no handphone */}
         <InputTextValue
           id={"no handphone"}
           label={"No Handphone"}
           onChange={(e) => setPhone(e.target.value)}
-          value={phone}
+          value={userData.phone}
         />
         {/* alamat */}
         <InputTextValue
           id={"alamat"}
           label={"Alamat"}
           onChange={(e) => setAddress(e.target.value)}
-          value={address}
+          value={userData.address}
         />
         {/* save button */}
         <div className="mt-20 w-full flex justify-end gap-10">
