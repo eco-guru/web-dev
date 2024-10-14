@@ -23,7 +23,7 @@ export default function SignInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await loginUser(e, username, password);
+    const response = await loginUser(username, password);
 
     console.log(response, response.status);
 
