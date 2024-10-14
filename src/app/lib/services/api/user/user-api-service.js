@@ -28,8 +28,7 @@ export const createUser = async (
   }
 };
 
-export const loginUser = async (e, username, password) => {
-  e.preventDefault();
+export const loginUser = async (username, password) => {
   try {
     const response = await api.post("/users/login", {
       username: username,
