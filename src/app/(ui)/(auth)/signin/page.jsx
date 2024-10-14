@@ -21,21 +21,9 @@ export default function SignInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-    const response = await loginUser(username, password);
-
-    console.log(response, response.status);
-
-    // munculin alert
-    if (response.status === 201 || response.status === 200) {
-      localStorage.setItem("userData", JSON.stringify(response.data));
-      router.push("/user/profile"); // Redirect ke halaman profile
-    } else {
-=======
     try {
       const response = await loginUser(username, password);
     } catch (error) {
->>>>>>> redirect
       setAlert(true);
       setError(error.message);
     }

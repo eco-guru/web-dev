@@ -90,7 +90,7 @@ export default function ProfilePage() {
         />
         {/* save button */}
         <div className="mt-20 w-full flex justify-end gap-10">
-          <ButtonLogout />
+          <ButtonLogout token={token} />
           <ButtonSave />
         </div>
       </form>

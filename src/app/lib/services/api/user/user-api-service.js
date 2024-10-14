@@ -43,13 +43,19 @@ export const loginUser = async (username, password) => {
   }
 };
 
-export const logOut = async () => {
+export const logOut = async ({ token }) => {
+  console.log("token: ", token);
+
   try {
-    const response = await api.delete("/users/logout");
-    return response;
+    const response = await api.delete("/users/logout", {
+      headers: {
+        Authorization: token,
+      },
+    });
+    permanentRedirect("/signin");
   } catch (error) {
-    console.error("Error uhuy logout:", error);
-    return error;
+    console.error("Error uhuy logout:", error.status);
+    return error.message;
   }
 };
 
