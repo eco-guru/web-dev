@@ -1,4 +1,8 @@
+'use server'
+
 import { api } from "../api";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export const createUser = async (
   e,
@@ -16,10 +20,46 @@ export const createUser = async (
       phone: phone,
     });
 
-    console.log(response);
-    return response.data;
+    // console.log(response);
+    return response;
   } catch (error) {
-    console.error("Error create user:", error);
-    throw error;
+    console.error("Error uhuy create user:", error);
+    return error;
+  }
+};
+
+export const loginUser = async (e, username, password) => {
+  e.preventDefault();
+  try {
+    const response = await api.post("/users/login", {
+      username: username,
+      password: password,
+    });
+
+    // console.log(response);
+    return response;
+  } catch (error) {
+    console.error("Error uhuy login user:", error);
+    return error;
+  }
+};
+
+export const logOut = async () => {
+  try {
+    const response = await api.delete("/users/logout");
+    return response;
+  } catch (error) {
+    console.error("Error uhuy logout:", error);
+    return error;
+  }
+};
+
+export const getUser = async () => {
+  try {
+    const response = await api.get("/users");
+    return response;
+  } catch (error) {
+    console.error("Error uhuy get user:", error);
+    return error;
   }
 };

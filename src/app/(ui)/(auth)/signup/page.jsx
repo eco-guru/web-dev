@@ -7,7 +7,8 @@ import InputCheckbox from "../../components/input/checkbox/checkbox.jsx";
 import InputSubmit from "../../components/input/submit/submit.jsx";
 import InputText from "../../components/input/text/text.jsx";
 import InputPassword from "../../components/input/password/password.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CreateUserAlert from "../../components/modal/create-alert.jsx";
 
 // import services
 import { createUser } from "../../../lib/services/api/user/user-api-service.js";
@@ -18,21 +19,30 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [status, setStatus] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await createUser(
-        e,
-        username,
-        password,
-        confirmPassword,
-        phone
-      );
-      console.log(response);
-    } catch (error) {
-      console.error("Error create user:", error);
-      throw error;
+    const response = await createUser(
+      e,
+      username,
+      password,
+      confirmPassword,
+      phone
+    );
+
+    console.log(response, response.status);
+
+    // munculin alert
+    if (response.status === 201 || response.status === 200) {
+      setAlert(true);
+      setStatus(true);
+    } else {
+      setAlert(true);
+      setStatus(false);
+      setError(response.message);
     }
   };
 
@@ -122,7 +132,8 @@ export default function SignUpPage() {
           <InputSubmit text={"Sign up"} id={"signup"} />
         </form>
       </div>
-      {/* bagian kanan */}
+      {/* modal alert */}
+      <CreateUserAlert active={alert} success={status} error={error} setAlert={setAlert} />
     </>
   );
 }

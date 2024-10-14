@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Theme } from "../../shared/theme.js";
 import Link from "next/link.js";
@@ -5,8 +7,36 @@ import InputCheckbox from "../../components/input/checkbox/checkbox.jsx";
 import InputSubmit from "../../components/input/submit/submit.jsx";
 import InputText from "../../components/input/text/text.jsx";
 import InputPassword from "../../components/input/password/password.jsx";
+import ErrorLoginAlert from "../../components/modal/error-login-alert.jsx";
 
-export default function SignInPage(params) {
+import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter untuk navigasi
+import { loginUser } from "../../../lib/services/api/user/user-api-service.js";
+
+export default function SignInPage() {
+  // login user data
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // Untuk menyimpan pesan error
+  const [alert, setAlert] = useState(false); // Untuk menyimpan status alert
+  const router = useRouter(); // Inisialisasi useRouter
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await loginUser(e, username, password);
+
+    console.log(response, response.status);
+
+    // munculin alert
+    if (response.status === 201 || response.status === 200) {
+      localStorage.setItem("userData", JSON.stringify(response.data));
+      router.push("/user/profile"); // Redirect ke halaman profile
+    } else {
+      setAlert(true);
+      setError(response.message);
+    }
+  };
+
   return (
     <>
       {/* bagian kiri */}
@@ -56,25 +86,34 @@ export default function SignInPage(params) {
           <p className="text-3xl font-extrabold px-2">or</p>
           <hr className="w-[50%]" />
         </div>
-        <form action="" className="flex flex-col gap-5">
+        <form
+          action=""
+          onSubmit={(e) => handleSubmit(e)}
+          className="flex flex-col gap-5"
+        >
           <InputText
             id={"username"}
             placeholder={"Username"}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             error={"username is required"}
           />
           <InputPassword
             id={"password"}
             placeholder={"Password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             error={"password is required"}
           />
+          {/* TODO: agreement checkbox */}
           {/* agreement */}
           <InputCheckbox id={"remember"}>Remember me</InputCheckbox>
           {/* submit button */}
           <InputSubmit text={"Login"} id={"login"} />
         </form>
-        <Link href={"/user/profile"}>Profile</Link>
       </div>
-      {/* bagian kanan */}
+      {/* modal alert */}
+      <ErrorLoginAlert active={alert} error={error} setAlert={setAlert} />
     </>
   );
 }

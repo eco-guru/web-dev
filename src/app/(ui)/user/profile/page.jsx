@@ -1,9 +1,31 @@
+"use client";
+
 import Image from "next/image";
 import SecondaryButton from "../../components/button/secondary/secondary-button.jsx";
 import InputTextValue from "../../components/input/text/text-value.jsx";
 import ButtonSave from "../../components/button/save/save-button.jsx";
+import { useState, useEffect } from "react";
+import ButtonLogout from "../../components/button/logout/logout.jsx";
+import { useRouter } from "next/navigation.js";
 
 export default function ProfilePage() {
+  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("userData"));
+    // console.log(data.data);
+
+    if (data) {
+      setUsername(data.data.username);
+      setPhone(data.data.phone);
+      if (data.data.address) {
+        setAddress(data.data.address);
+      }
+    }
+  }, []); // <- Empty array ensures this useEffect runs only once
+
   return (
     <div className="border rounded-xl px-14 py-8 shadow-lg">
       <form action="">
@@ -36,23 +58,29 @@ export default function ProfilePage() {
         <br />
         <br />
         {/* username */}
-        <InputTextValue id={"username"} label={"Username"} value={"EUIX"} />
-
+        <InputTextValue
+          id={"username"}
+          label={"Username"}
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
+        />
         {/* no handphone */}
         <InputTextValue
           id={"no handphone"}
           label={"No Handphone"}
-          value={"081234567890"}
+          onChange={(e) => setPhone(e.target.value)}
+          value={phone}
         />
-
         {/* alamat */}
         <InputTextValue
           id={"alamat"}
           label={"Alamat"}
-          value={"Jl. Raya Cibaduyut"}
+          onChange={(e) => setAddress(e.target.value)}
+          value={address}
         />
         {/* save button */}
-        <div className="mt-20 w-full flex justify-end">
+        <div className="mt-20 w-full flex justify-end gap-10">
+          <ButtonLogout />
           <ButtonSave />
         </div>
       </form>
