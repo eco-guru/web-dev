@@ -10,6 +10,8 @@ export const createUser = async (
   confirmPassword,
   phone
 ) => {
+  console.log("masuk ga siii");
+
   try {
     const response = await api.post("/users", {
       username: username,

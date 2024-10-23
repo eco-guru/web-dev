@@ -32,6 +32,8 @@ export default function SignUpPage() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
+
     try {
       const response = await createUser(
         formData.username,
