@@ -2,7 +2,7 @@
 
 import { api } from "../api";
 import { revalidatePath } from "next/cache";
-import { permanentRedirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
 
 export const createUser = async (
   username,
@@ -10,18 +10,24 @@ export const createUser = async (
   confirmPassword,
   phone
 ) => {
-  console.log("masuk ga siii");
-
   try {
-    const response = await api.post("/users", {
-      username: username,
-      password: password,
-      confirmPassword: confirmPassword,
-      phone: phone,
+    const response = await fetch("http://localhost:5000/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        phone: phone,
+        password: password,
+      }),
     });
-    console.log("response uhuy: ", response.status, response.data);
 
-    return { status: response.status, data: response.data.data };
+    const result = await response.json();
+
+    console.log("result: ", result);
+
+    return { result };
   } catch (error) {
     console.error("Error uhuy:", error.message);
     return error.message;
@@ -30,15 +36,24 @@ export const createUser = async (
 
 export const loginUser = async (username, password) => {
   try {
-    const response = await api.post("/users/login", {
-      username: username,
-      password: password,
+    const response = await fetch("http://localhost:5000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        usernameOrPhone: username,
+        password: password,
+      }),
     });
 
-    console.log("response uhuy: ", response.status, response.data);
+    const data = await response.json();
+
+    console.log("response data: ", data);
 
     permanentRedirect(
-      `/user/profile?username=${response.data.data.username}&token=${response.data.data.token}`
+      `/user/profile?username=${data.user.username}&token=${data.user.token}`
     );
   } catch (error) {
     throw error;
@@ -49,29 +64,35 @@ export const logOut = async ({ token }) => {
   console.log("token: ", token);
 
   try {
-    const response = await api.delete("/users/logout", {
+    const response = await fetch("http://localhost:5000/api/users/logout", {
+      method: "DELETE",
       headers: {
+        "Content-Type": "application/json",
         Authorization: token,
       },
     });
-    permanentRedirect("/signin");
+    const result = await response.json();
+    console.log("result: ", result);
+
+    redirect("/signin");
   } catch (error) {
-    console.error("Error uhuy logout:", error.status);
+    console.error("Error uhuy logout:", error);
     return error.message;
   }
 };
 
-export const getUser = async ({ username, token }) => {
+export const getUser = async ({ token }) => {
   try {
-    const response = await api.get("/users/current", {
+    const response = await fetch("http://localhost:5000/api/users/current", {
+      method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: token,
       },
-      params: {
-        username: username,
-      },
     });
-    return { status: response.status, data: response.data.data };
+    const result = await response.json();
+    console.log("result: ", result);
+    return result;
   } catch (error) {
     throw error;
   }

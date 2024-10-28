@@ -1,8 +1,14 @@
+'use client'
+
 import Link from "next/link";
 import { Theme } from "../../../shared/theme.js";
 import Image from "next/image.js";
+import { useSearchParams } from "next/navigation";
 
 export default function UserNavbar() {
+
+  const token = useSearchParams().get("token");
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 px-11 py-7 text-white"
@@ -16,7 +22,7 @@ export default function UserNavbar() {
         </li>
         <li>
           <div className="flex justify-center gap-8  font-bold text-2xl">
-            <Link href={"#"}>Home</Link>
+            <Link href={`/home/kategori-sampah?token=${token}`}>Home</Link>
             <Link href={"#"}>My Warehouse</Link>
             <Link href={"#"}>Orders</Link>
             <Link href={"#"}>Shop</Link>
