@@ -3,14 +3,23 @@
 import React, { useState } from "react";
 import { Theme } from "../../shared/theme.js";
 import InputVersiDua from "../../components/input/input-versi-2/inputv2.jsx";
+import { useSearchParams } from "next/navigation.js";
+import { createWasteCategory } from "../../../lib/services/api/waste-category/waste-category-service.js";
 
 const KategoriSampah = () => {
   const [kategori, setKategori] = useState("");
   const [listKategori, setListKategori] = useState([{ nama: "Plastik" }]);
+  const token = localStorage.getItem("token");
+  console.log("token: ", token);
 
-  const handleSimpan = () => {
+  const handleSimpan = async () => {
     if (kategori.trim()) {
       setListKategori([...listKategori, { nama: kategori }]);
+      const newKategori = await createWasteCategory({
+        category: kategori,
+        token,
+      });
+      console.log(newKategori);
       setKategori("");
     }
   };

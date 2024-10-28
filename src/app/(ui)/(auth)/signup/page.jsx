@@ -43,13 +43,13 @@ export default function SignUpPage() {
       );
 
       console.log("response ahay: ", response);
-      if (response.status === 201 || response.status === 200) {
-        setAlert(true);
-        setStatus(true);
-      } else {
+      if (response.result.errors) {
         setAlert(true);
         setStatus(false);
-        setError(response);
+        setError(response.result.errors);
+      } else {
+        setAlert(true);
+        setStatus(true);
       }
     } catch (error) {
       setAlert(true);
