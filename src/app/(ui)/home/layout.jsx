@@ -16,9 +16,9 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className={`${plusJakartaSans.className} flex h-screen bg-gray-100`}>
+    <div className={`${plusJakartaSans.className} flex h-screen bg-white-100`}>
       {/* Sidebar */}
-      <div className="w-64 bg-green-900 text-white p-6">
+      <div className="w-64 h-[150%] bg-green-900 text-white p-6 ">
         <h1 className="text-2xl font-bold mb-8">EcoGuru</h1>
         <nav>
           <ul className="space-y-2">
@@ -76,7 +76,7 @@ const Layout = ({ children }) => {
             </li>
             <li>
               <a
-                href="/transaksi"
+                href="/home/transaksi"
                 className="block py-2 px-4 hover:bg-green-700"
               >
                 Transaksi
