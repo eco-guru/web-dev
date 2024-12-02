@@ -26,6 +26,9 @@ export default function FormSignin() {
 
       if (response.isAdmin) {
         router.push("/dashboard");
+      } 
+      else if (response.isWasteCollector) {
+        router.push("/dashboard");
       } else {
         alert("Anda bukan admin!");
       }

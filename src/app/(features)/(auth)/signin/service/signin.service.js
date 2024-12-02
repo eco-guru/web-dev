@@ -34,9 +34,10 @@ export default async function signIn({ usernameOrPhone, password }) {
     cookieStore.set("id", data.user.id);
 
     const isAdmin = await bcrypt.compare("Admin", data.user.role);
+    const isWasteCollector = await bcrypt.compare("Waste Collector", data.user.role);
     // const isAdmin = data.user.role === "Admin";
 
-    return { data, isAdmin };
+    return { data, isAdmin, isWasteCollector};
   } catch (error) {
     console.log(error);
     throw new Error(error.message);

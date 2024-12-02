@@ -37,6 +37,11 @@ export async function POST(request) {
 
     const startDate = new Date();
     const startDateISOString = startDate.toISOString();
+    console.log("wasteTypeId", wasteTypeId);
+    console.log("unitId", unitId);
+    console.log("price", price);
+    console.log("startDateISOString", startDateISOString);
+    
 
     // Simulasi pengiriman ke API backend
     const response = await fetch(url, {
@@ -52,7 +57,7 @@ export async function POST(request) {
         price: price,
         isActive: true,
         start_date: startDateISOString,
-        end_date: "",
+        end_date: startDateISOString,
       }),
     });
 

@@ -69,7 +69,7 @@ export default function FormWastePrice({
 
       const data = await response.json();
 
-      console.log(data);
+      console.log("Data:", data);
 
       if (!response.ok) {
         alert(data.message);
