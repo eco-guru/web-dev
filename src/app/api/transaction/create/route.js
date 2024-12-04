@@ -3,38 +3,38 @@
 import { API_BASE_URL } from "@/app/const/const";
 import { cookies } from "next/headers";
 
-export async function POST(req, { params }) {
+export async function POST(req) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
-  const { sessionId } = params;
-
+  
   try {
-    // const response = await fetch(
-    //   `${API_BASE_URL}/transaction/getOne/${sessionId}`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `${token}`,
-    //     },
-    //     credentials: "include",
-    //   }
-    // );
+    const dataRequest = await req.json();
+    const response = await fetch(
+      `${API_BASE_URL}/transaction/create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        credentials: "include",
+        body: JSON.stringify(dataRequest)
+      }
+    );
 
-    // if (!response.ok) {
-    //   return new Response(
-    //     JSON.stringify({ error: "Failed to fetch transaction data" }),
-    //     {
-    //       status: response.status,
-    //       headers: { "Content-Type": "application/json" },
-    //     }
-    //   );
-    // }
+    if (!response.ok) {
+      return new Response(
+        JSON.stringify({ error: "Failed to fetch transaction data" }),
+        {
+          status: response.status,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
 
-    // const data = await response.json();
+    const data = await response.json();
 
-    return new Response(JSON.stringify(request), {
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

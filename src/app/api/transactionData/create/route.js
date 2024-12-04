@@ -3,22 +3,22 @@
 import { API_BASE_URL } from "@/app/const/const";
 import { cookies } from "next/headers";
 
-export async function GET(req, { params }) {
+export async function POST(req) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
-  const { transactionId } = await params;
-
+  
   try {
+    const dataRequest = await req.json();
     const response = await fetch(
-      `${API_BASE_URL}/transaction/getOne/${transactionId}`,
+      `${API_BASE_URL}/transactionData/create`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `${token}`,
         },
         credentials: "include",
+        body: JSON.stringify(dataRequest)
       }
     );
 

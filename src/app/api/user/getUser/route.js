@@ -1,11 +1,12 @@
 "use server";
 
-import { API_BASE_URL, API_MOBILE_URL } from "@/app/const/const";
+import { API_BASE_URL } from "@/app/const/const";
 import { cookies } from "next/headers";
 
 export async function GET(req) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const userRole = cookieStore.get('user-role')?.value;
   
   try {
     const response = await fetch(`${API_BASE_URL}/admin/users`, {
@@ -13,6 +14,7 @@ export async function GET(req) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${token}`,
+        Cookie: `user-role=${encodeURIComponent(userRole)}`
       },
       credentials: "include",
     });

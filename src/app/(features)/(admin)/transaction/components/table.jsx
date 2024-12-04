@@ -57,18 +57,28 @@ export default function TableSession() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <TdDataMaster>10-01-2023</TdDataMaster>
-          <TdDataMaster>10 Kg</TdDataMaster>
-          <TdDataMaster>Rp. 100.000</TdDataMaster>
-          <TdDataMaster>
-            <div className="flex gap-4">
-              <PrimaryLink text={"Lihat"} href={"/transaction/3"} />
-              <PrimaryLink text={"Edit"} />
-              <DangerLink text={"Hapus"} />
-            </div>
-          </TdDataMaster>
-        </tr>
+        {
+          transactions.map((value, index) => (
+            <tr key={index}>
+              <TdDataMaster>{`${String(new Date(value.transaction_date).getDate()).padStart(2, '0')}-${String(new Date(value.transaction_date).getMonth() + 1).padStart(2, '0')}-${new Date(value.transaction_date).getFullYear()}`}</TdDataMaster>
+              <TdDataMaster>{value.TransactionData.reduce((acc, value) => {
+                acc += value.quantity;
+                return acc
+              }, 0)} Kg</TdDataMaster>
+              <TdDataMaster>Rp. {value.TransactionData.reduce((acc, value) => {
+                acc += (value.price * value.quantity);
+                return acc
+              }, 0)}</TdDataMaster>
+              <TdDataMaster>
+                <div className="flex gap-4">
+                  <PrimaryLink text={"Lihat"} href={`/transaction/result/detail/${value.id}`} />
+                  <PrimaryLink text={"Edit"} />
+                  <DangerLink text={"Hapus"} />
+                </div>
+              </TdDataMaster>
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   );
