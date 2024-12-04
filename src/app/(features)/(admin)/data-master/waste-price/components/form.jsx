@@ -15,8 +15,8 @@ export default function FormWastePrice({
   const [wasteType, setWasteType] = useState([]);
   const [wasteUnit, setWasteUnit] = useState([]);
   const [wastePrice, setWastePrice] = useState("");
-  const [wasteTypeId, setWasteTypeId] = useState(1);
-  const [wasteUnitId, setWasteUnitId] = useState(2);
+  const [wasteTypeId, setWasteTypeId] = useState("1");
+  const [wasteUnitId, setWasteUnitId] = useState("2");
   const [wasteTypeOptions, setWasteTypeOptions] = useState([]);
   const [wasteUnitOptions, setWasteUnitOptions] = useState([]);
 
@@ -74,11 +74,7 @@ export default function FormWastePrice({
       if (!response.ok) {
         alert(data.message);
       } else {
-        if (data.message) {
-          alert(data.message);
-        } else {
-          alert("Harga sampah berhasil ditambahkan");
-        }
+        alert(data.message);
       }
 
       onFormSubmit();
