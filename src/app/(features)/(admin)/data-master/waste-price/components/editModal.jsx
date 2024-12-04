@@ -52,7 +52,11 @@ export default function EditModal({
       if (!response.ok) {
         alert(data.message);
       } else {
-        alert(data.message);
+        if (data.message) {
+          alert(data.message);
+        } else {
+          alert("Harga sampah berhasil diubah");
+        }
       }
 
       fetchData();

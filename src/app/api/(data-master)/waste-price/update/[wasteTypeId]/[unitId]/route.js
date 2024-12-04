@@ -66,7 +66,7 @@ export async function PUT(request, { params }) {
         price: price,
         isActive: true,
         start_date: startDateISOString,
-        end_date: "",
+        end_date: startDateISOString,
       }),
     });
 
