@@ -5,6 +5,8 @@ export default function InputText({
   label,
   placeholder,
   onChange = () => {},
+  list = [],
+  formId = ''
 }) {
   return (
     <div className="flex gap-[80px] justify-between items-center">
@@ -15,7 +17,11 @@ export default function InputText({
         type="text"
         placeholder={placeholder}
         className={`w-[70%] outline-none border border-black rounded-lg py-3 px-4 text-xl font-bold`}
+        list={formId}
       />
+      <datalist id={formId}>
+        {list.map((value, key) => (<option key={key} value={value}></option>))}
+      </datalist>
     </div>
   );
 }

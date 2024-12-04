@@ -19,10 +19,14 @@ export default function FormSignin() {
   const handleSignin = async (e) => {
     e.preventDefault();
     try {
+      console.log("test");
       const response = await signIn({
         usernameOrPhone: usernameOrPhone,
         password: password,
       });
+      console.log("test tets");
+      
+      console.log(response);
 
       if (response.isAdmin) {
         router.push("/dashboard");

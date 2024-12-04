@@ -19,6 +19,8 @@ export default async function signIn({ usernameOrPhone, password }) {
       }),
     });
 
+    console.log(response);
+
     if (!response.ok) {
       throw new Error("Invalid username or password");
     }

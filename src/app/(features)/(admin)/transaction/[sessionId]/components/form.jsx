@@ -9,28 +9,46 @@ import InputSubmit from "../../../data-master/components/input/inputSubmit";
 import InputText from "../../../data-master/components/input/inputText";
 import Divider from "../../../components/divider";
 
-export default function FormAddTransactioin({ onAdded }) {
+export default function FormAddTransactioin({ onAdded, wasteType, data, setData, users, formId }) {
   const [token, setToken] = useState(null);
-  const [formData, setFormData] = useState({});
+
   return (
-    <FormContainer onSubmit={() => {}}>
+    <FormContainer onSubmit={onAdded}>
       <Heading1 text={"Form Tambah Transaksi"} />
       <div className="flex flex-col gap-6">
-        <InputText
-          id={""}
+        {
+          users && <InputText
+          id={"nasabah"}
           label={"Nama Nasabah"}
           placeholder={"Masukan nama nasabah"}
+          value={data.name}
+          onChange={(e) => {
+            setData({
+              ...data,
+              name: e.target.value
+            });
+          }}
+          list={users.map(value => value.username)}
+          formId={"users"}
         />
+        }
         <Divider />
         <div
           className="flex flex-col gap-6 shrink-0"
           style={{ maxHeight: "414px", overflowY: "auto" }}
         >
-          <InputText
-            id={""}
-            label={"Nama Nasabah"}
-            placeholder={"Masukan nama nasabah"}
-          />
+          {
+            wasteType.map((value, index) => (<InputText
+                key={index}
+                id={""}
+                label={value.type}
+                placeholder={"Masukan berat sampah"}
+                value={data[value]}
+                onChange={(e) => {
+                  setData({...data, [value.type]: e.target.value});
+                }}
+              />))
+          }
         </div>
       </div>
 
