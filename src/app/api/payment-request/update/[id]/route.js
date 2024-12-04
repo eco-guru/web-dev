@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
   const { id } = params;
-  const url = `${API_BASE_URL}/waste-type/update`;
+  const url = `${API_BASE_URL}/payment-requests`;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const userRole = cookieStore.get("user-role")?.value;
@@ -27,7 +27,7 @@ export async function PUT(request, { params }) {
 
   if (!id) {
     return NextResponse.json(
-      { message: "Category ID is required." },
+      { message: "ID is required." },
       { status: 400 }
     );
   }
