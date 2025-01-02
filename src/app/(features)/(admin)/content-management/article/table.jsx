@@ -57,7 +57,7 @@ export default function TableArticle() {
             <tr key={article.id}>
               <Td>
                 <Image
-                  src="/img/admin/image.png"
+                  src={article.thumbnail_url}
                   alt=""
                   width={176}
                   height={114}

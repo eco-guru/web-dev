@@ -37,7 +37,7 @@ export default function SidebarMenuAdmin({}) {
 
   return (
     <>
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex flex-col justify-between h-full overflow-y-scroll">
         <ul className="flex flex-col gap-4">
           <li>
             <SidebarItemAdmin

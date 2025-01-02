@@ -9,7 +9,7 @@ export default function SidebarAdmin({ className = "" }) {
       className={`px-6 py-16 fixed z-30 left-0 top-0 bottom-0 rounded-e-2xl ${className}`}
       style={{ backgroundColor: Color.primary }}
     >
-      <div className="flex flex-col gap-24 h-full">
+      <div className="flex flex-col gap-24 h-full overflow-y-scroll">
         <LogoAdmin />
 
         <SidebarMenuAdmin />
