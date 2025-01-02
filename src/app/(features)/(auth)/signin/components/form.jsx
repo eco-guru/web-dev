@@ -24,12 +24,9 @@ export default function FormSignin() {
         password: password,
       });
 
-      console.log('test');
-      console.log(response);
       if (response.isAdmin) {
         router.push("/dashboard");
       }
-      console.log("ini bukan admin");
     } catch (error) {
       throw new Error(error.message);
     }
