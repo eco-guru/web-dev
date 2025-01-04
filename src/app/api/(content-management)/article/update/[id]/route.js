@@ -37,6 +37,8 @@ export async function PUT(req, { params }) {
       }),
     });
 
+    console.log(response);
+
     if (!response.ok) {
       return new Response(
         JSON.stringify({ error: "Failed to update article" }),

@@ -28,6 +28,8 @@ export async function GET(req) {
       );
     }
 
+    console.log(response);
+
     const data = await response.json();
 
     return new Response(JSON.stringify(data), {

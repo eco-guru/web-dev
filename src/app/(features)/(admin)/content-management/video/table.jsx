@@ -115,31 +115,29 @@ export default function TableVideo({ isDataUpdated }) {
               </Td>
               <Td>{video.title}</Td>
               <Td>{convertDate(video.upload_date)}</Td>
-              <Td>24 Views</Td>{" "}
-              <Td>{video.categoryId}</Td>{" "}
+              <Td>{video.views} Views</Td>{" "}
+              <Td>{video.category}</Td>{" "}
               <Td>
-                <select
+                <input
                   name="order"
                   id="order"
+                  type="number"
                   className="w-full px-3 py-2 rounded-[4px]"
                   value={video.video_order}
+                  min="1"
+                  max={videos.length}
                   onChange={(e) => {
                     const updatedData = {
                       ...video,
                       video_order: e.target.value,
                     };
+                    setVideos([
+                      ...videos.filter(value => value.id !== video.id),
+                      updatedData
+                    ]);
                     updateVideoData(video.id, updatedData);
                   }}
-                >
-                  {videos.map((videoOption) => (
-                    <option
-                      key={videoOption.id}
-                      value={videoOption.video_order}
-                    >
-                      {videoOption.video_order}
-                    </option>
-                  ))}
-                </select>
+                />
               </Td>
               <Td>
                 <div className="flex gap-4">

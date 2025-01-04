@@ -12,8 +12,6 @@ export async function PUT(req, { params }) {
     return new Response("ID is required", { status: 400 });
   }
 
-  console.log("titid 2");
-
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const url = `${API_BASE_URL}/videos/update/${id}`;
@@ -26,7 +24,7 @@ export async function PUT(req, { params }) {
       },
       credentials: "include",
       body: JSON.stringify({
-        id: id,
+        id: Number(id),
         title: body.title,
         description:
           body.description,
@@ -41,6 +39,8 @@ export async function PUT(req, { params }) {
         video_order: body.video_order,
       }),
     });
+
+    console.log("response: ", response);
 
     if (!response.ok) {
       return new Response(JSON.stringify({ error: "Failed toupdate video" }), {

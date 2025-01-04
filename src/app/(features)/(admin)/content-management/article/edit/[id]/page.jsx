@@ -5,11 +5,9 @@ import Heading1 from "../../../../data-master/components/heading1";
 import InputSubmit from "../../../../data-master/components/input/inputSubmit";
 import InputText from "../../../components/input/inputText";
 import InputSelect from "../../../components/input/inputCategory";
-import { API_BASE_URL } from "@/app/const/const";
-import Cookies from "js-cookie";
 import Trix from "./TrixEditorComponent";
-import { updateArticle } from "../../service/article.service";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function EditArticlePage({}) {
   const [articleData, setArticleData] = useState({
@@ -27,7 +25,7 @@ export default function EditArticlePage({}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [content, setContent] = useState("");
+  const router = useRouter();
 
   const categoryOptions = [
     { value: 1, label: "Recycling Tutorials" },
@@ -71,12 +69,7 @@ export default function EditArticlePage({}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const articlePayload = {
-      ...articleData,
-      created_by: user,
-      content: content,
-    };
-
+    const articlePayload = articleData;
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
@@ -108,6 +101,10 @@ export default function EditArticlePage({}) {
         created_date: new Date().toISOString(),
         article_order: 1,
       });
+
+      setTimeout(() => {
+        router.push('/content-management/article');
+      }, 3000)
     } catch (error) {
       setError("Error updating article: " + error.message);
     } finally {
@@ -165,7 +162,7 @@ export default function EditArticlePage({}) {
         <div className="w-[70%] outline-none border border-black bg-white rounded-lg py-3 px-4 text-xl font-bold">
           <Trix
             defaultValue={articleData.content}
-            onChange={(e, newValue) => setContent(newValue)}
+            onChange={(e, newValue) => setArticleData({...articleData, content: newValue})}
           />
         </div>
       </div>

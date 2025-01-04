@@ -53,7 +53,7 @@ export default function TableArticle() {
       <table className="w-full table-fixed">
         <Thead />
         <tbody>
-          {articles?.map((article) => (
+          {articles?.map((article, index) => (
             <tr key={article.id}>
               <Td>
                 <Image
@@ -65,10 +65,13 @@ export default function TableArticle() {
               </Td>
               <Td>{article.title}</Td>
               <Td>{convertDate(article.created_date)}</Td>
-              <Td>24 Penayangan</Td>
-              <Td>{article.categoryId}</Td>
+              <Td>{article.views} Penayangan</Td>
+              <Td>{article.category}</Td>
               <Td>
-                <select
+                <input
+                  type="number"
+                  min="1"
+                  max={articles.length}
                   name="order"
                   id="order"
                   className="w-full px-3 py-2 rounded-[4px]"
@@ -78,13 +81,16 @@ export default function TableArticle() {
                       ...article,
                       article_order: e.target.value,
                     };
+                    setArticles([ 
+                      ...articles.filter((_, i) => i !== index), 
+                      { 
+                        ...article, 
+                        article_order: e.target.value 
+                      }
+                    ]);
                     updateArticleData(article.id, updatedData);
                   }}
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
+                />
               </Td>
               <Td>
                 <div className="flex gap-4">
