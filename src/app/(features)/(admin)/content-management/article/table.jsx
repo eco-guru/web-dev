@@ -31,7 +31,7 @@ export default function TableArticle() {
       const response = await deleteArticle(id);
       console.log("delete response:", response);
 
-      if (response && response.ok) {
+      if (response) {
         alert("Article deleted successfully.");
         fetchData();
       } else {

@@ -5,11 +5,6 @@ import TdDataMaster from "../../data-master/components/table/td";
 import ThDataMaster from "../../data-master/components/table/th";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { API_BASE_URL } from "@/app/const/const";
-<<<<<<< HEAD
-import { formatDate } from "../service/transactionService";
-=======
->>>>>>> Revisi_SP1
 
 export default function TableSession() {
   const [token, setToken] = useState(null);
@@ -61,27 +56,6 @@ export default function TableSession() {
         </tr>
       </thead>
       <tbody>
-<<<<<<< HEAD
-        {transactions.map((transaction) => (
-          <tr key={transaction.id}>
-            <TdDataMaster>
-              {formatDate(transaction.transaction_date)}
-            </TdDataMaster>
-            <TdDataMaster>10Kg</TdDataMaster>
-            <TdDataMaster>{transaction.total}</TdDataMaster>
-            <TdDataMaster>
-              <div className="flex gap-4">
-                <PrimaryLink
-                  text={"Lihat"}
-                  href={`/transaction/${transaction.id}`}
-                />
-                <PrimaryLink text={"Edit"} />
-                <DangerLink text={"Hapus"} />
-              </div>
-            </TdDataMaster>
-          </tr>
-        ))}
-=======
         {
           transactions.map((value, index) => (
             <tr key={index}>
@@ -104,7 +78,6 @@ export default function TableSession() {
             </tr>
           ))
         }
->>>>>>> Revisi_SP1
       </tbody>
     </table>
   );

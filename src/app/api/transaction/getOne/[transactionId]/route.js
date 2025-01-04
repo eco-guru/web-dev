@@ -7,19 +7,11 @@ export async function GET(req, { params }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-<<<<<<< HEAD
-  const { sessionId } = params;
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/transaction/getOne/${sessionId}`,
-=======
   const { transactionId } = await params;
 
   try {
     const response = await fetch(
       `${API_BASE_URL}/transaction/getOne/${transactionId}`,
->>>>>>> Revisi_SP1
       {
         method: "GET",
         headers: {
