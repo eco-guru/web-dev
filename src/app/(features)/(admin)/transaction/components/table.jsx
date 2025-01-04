@@ -6,7 +6,10 @@ import ThDataMaster from "../../data-master/components/table/th";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "@/app/const/const";
+<<<<<<< HEAD
 import { formatDate } from "../service/transactionService";
+=======
+>>>>>>> Revisi_SP1
 
 export default function TableSession() {
   const [token, setToken] = useState(null);
@@ -58,6 +61,7 @@ export default function TableSession() {
         </tr>
       </thead>
       <tbody>
+<<<<<<< HEAD
         {transactions.map((transaction) => (
           <tr key={transaction.id}>
             <TdDataMaster>
@@ -77,6 +81,30 @@ export default function TableSession() {
             </TdDataMaster>
           </tr>
         ))}
+=======
+        {
+          transactions.map((value, index) => (
+            <tr key={index}>
+              <TdDataMaster>{`${String(new Date(value.transaction_date).getDate()).padStart(2, '0')}-${String(new Date(value.transaction_date).getMonth() + 1).padStart(2, '0')}-${new Date(value.transaction_date).getFullYear()}`}</TdDataMaster>
+              <TdDataMaster>{value.TransactionData.reduce((acc, value) => {
+                acc += value.quantity;
+                return acc
+              }, 0)} Kg</TdDataMaster>
+              <TdDataMaster>Rp. {value.TransactionData.reduce((acc, value) => {
+                acc += (value.price * value.quantity);
+                return acc
+              }, 0)}</TdDataMaster>
+              <TdDataMaster>
+                <div className="flex gap-4">
+                  <PrimaryLink text={"Lihat"} href={`/transaction/result/detail/${value.id}`} />
+                  <PrimaryLink text={"Edit"} />
+                  <DangerLink text={"Hapus"} />
+                </div>
+              </TdDataMaster>
+            </tr>
+          ))
+        }
+>>>>>>> Revisi_SP1
       </tbody>
     </table>
   );

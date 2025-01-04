@@ -6,10 +6,8 @@ import PrimaryLink from "../../../data-master/components/link/primaryLink";
 import TdDataMaster from "../../../data-master/components/table/td";
 import ThDataMaster from "../../../data-master/components/table/th";
 import { useEffect, useState } from "react";
-import {
-  fetchSingleTransactionData,
-  fetchTransactionData,
-} from "../service/transactionDataService";
+import Cookies from "js-cookie";
+import { API_BASE_URL } from "@/app/const/const";
 
 export default function TableTransaction({ isDataUpdated, sessionId }) {
   const [token, setToken] = useState(null);
@@ -19,23 +17,23 @@ export default function TableTransaction({ isDataUpdated, sessionId }) {
   const [transactionDataSelectedId, setTransactionDataSelectedId] =
     useState(null);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        // const data = await fetchSingleTransactionData(sessionId);
-        const data = await fetchTransactionData(sessionId);
-        console.log(data);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/transaction/getOne/`, {
+        method: "GET",
+      });
 
-        if (data.data) {
-          setTransactionData(data.data); // Simpan data transaksi
-        }
-      } catch (error) {
-        console.log(error);
+      if (!response.ok) {
+        throw new Error("Failed to fetch transactions data");
       }
-    };
+      const data = await response.json();
+      console.log(data);
 
-    loadData();
-  }, [sessionId, isDataUpdated]);
+      setTransactionData(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const openModal = (event, data, id) => {
     if (event?.preventDefault) event.preventDefault();
@@ -44,6 +42,14 @@ export default function TableTransaction({ isDataUpdated, sessionId }) {
     setTransactionDataSelectedId(id);
     setIsModalOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    const tokenValue = Cookies.get("token");
+    setToken(tokenValue);
+    if (sessionId != "create") {
+      fetchData();
+    }
+  }, [sessionId]);
 
   return (
     <>

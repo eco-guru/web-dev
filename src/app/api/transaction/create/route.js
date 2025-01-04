@@ -3,23 +3,28 @@
 import { API_BASE_URL } from "@/app/const/const";
 import { cookies } from "next/headers";
 
-export async function GET(req) {
+export async function POST(req) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/users/current`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: ` ${token}`,
-      },
-      credentials: "include",
-    });
+    const dataRequest = await req.json();
+    const response = await fetch(
+      `${API_BASE_URL}/transaction/create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        credentials: "include",
+        body: JSON.stringify(dataRequest)
+      }
+    );
 
     if (!response.ok) {
       return new Response(
-        JSON.stringify({ error: "Failed to fetch user data" }),
+        JSON.stringify({ error: "Failed to fetch transaction data" }),
         {
           status: response.status,
           headers: { "Content-Type": "application/json" },
@@ -27,9 +32,9 @@ export async function GET(req) {
       );
     }
 
-    const userData = await response.json();
+    const data = await response.json();
 
-    return new Response(JSON.stringify(userData), {
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
@@ -37,6 +42,6 @@ export async function GET(req) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
-    });
-  }
+    });
+  }
 }

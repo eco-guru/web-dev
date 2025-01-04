@@ -37,7 +37,11 @@ export default function SidebarMenuAdmin({}) {
 
   return (
     <>
+<<<<<<< HEAD
       <div className="flex flex-col justify-between h-full overflow-y-scroll">
+=======
+      <div className="flex flex-col justify-between h-full">
+>>>>>>> Revisi_SP1
         <ul className="flex flex-col gap-4">
           <li>
             <SidebarItemAdmin
@@ -85,6 +89,7 @@ export default function SidebarMenuAdmin({}) {
               isActive={isActive("/content-management")}
             />
           </li>
+<<<<<<< HEAD
           <li>
             <SidebarItemAdmin
               className=""
@@ -98,6 +103,8 @@ export default function SidebarMenuAdmin({}) {
               isActive={isActive("/payment-request")}
             />
           </li>
+=======
+>>>>>>> Revisi_SP1
         </ul>
         <ul className="flex flex-col gap-4 ">
           <li>
