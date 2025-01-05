@@ -25,9 +25,11 @@ export default function UserProfilePage() {
         throw new Error("Failed to fetch user data");
       }
       const data = await response.json();
+      console.log(data);
 
       setUsername(data.data.username);
       setPhone(data.data.phone);
+      setPreviewUrl(data.data.profile_picture);
     } catch (error) {
       console.error(error);
     }

@@ -1,11 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-      // domains: ['img.youtube.com'],
       remotePatterns: [
         {
           protocol: 'https',
           hostname: '**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'www.runtah.id',
+          pathname: '/operate/storage/photoProfile/**',
         }
       ]
     },

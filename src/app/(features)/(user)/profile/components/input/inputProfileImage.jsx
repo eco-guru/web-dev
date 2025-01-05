@@ -3,15 +3,15 @@ import UserAvatar from "../../../components/userAvatar";
 import ElevatedProfileButton from "../button/elevatedProfileButton";
 import RingProfileButton from "../button/ringProfileButton";
 import LabelInputUserProfile from "../labelInputUserProfile";
+import { IMAGE_BASE_URL } from "@/app/const/const";
 
 export default function InputProfileImage({ onChange, imgUrl }) {
-
   return (
     <>
       <LabelInputUserProfile text={"Profile Picture"} id={"picture"} />
       <div className="flex items-center gap-[47px]">
         <UserAvatar
-          src={imgUrl || "/img/avatar/user-avatar.png"}
+          src={imgUrl ? `${IMAGE_BASE_URL}/photoProfile/${imgUrl}` : "/img/icons/person.svg"}
           width={162}
           height={162}
         />
