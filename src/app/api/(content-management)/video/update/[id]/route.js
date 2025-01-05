@@ -32,7 +32,7 @@ export async function PUT(req, { params }) {
         format: "MP4",
         thumbnail_url: body.thumbnail_url,
         url: body.url,
-        upload_date: "2024-12-06T10:00:00.000Z",
+        upload_date: new Date().toISOString(),
         uploaded_by: "user1",
         categoryId: body.categoryId,
         isActive: body.isActive,

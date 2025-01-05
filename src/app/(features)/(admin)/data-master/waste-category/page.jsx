@@ -1,24 +1,8 @@
-"use client";
-import { useState } from "react";
-import Heading1 from "../components/heading1";
-import FormWasteCategory from "./components/form";
-import TableWasteCategory from "./components/table";
+import WasteCategoryPage from "./components/wasteCategoryPage";
+import { metadata } from "@/app/layout";
 
-export default function WasteCategoryPage() {
-  const [isDataUpdated, setIsDataUpdated] = useState(false);
-
-  const handleFormSubmit = () => {
-    setIsDataUpdated((prev) => !prev);
-  };
-
-  return (
-    <div>
-      <FormWasteCategory onCreated={handleFormSubmit} />
-      <br />
-      <br />
-
-      <Heading1 text={"Daftar Kategori Sampah"} className="mb-7" />
-      <TableWasteCategory isDataUpdated={isDataUpdated} />
-    </div>
-  );
+export default function WasteCategory() {
+  metadata.title = "Waste Category | Runtah";
+  
+  return (<WasteCategoryPage />);
 }
