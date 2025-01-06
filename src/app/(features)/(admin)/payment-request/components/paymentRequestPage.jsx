@@ -3,10 +3,36 @@
 import { useEffect, useState } from "react";
 import Heading1 from "../../data-master/components/heading1";
 import TablePencairan from "./table";
+import { useRouter } from "next/navigation";
 
 export default function PencairanPage() {
   const [paymentRequests, setPaymentRequests] = useState([]);
   const [historyPaymentRequests, setHistoryPaymentRequests] = useState([]);
+  const [userStatus, setUserStatus] = useState();
+  const router = useRouter();
+    
+  const checkUser = async () => {
+    const response = await fetch('/api/checkUser/auth', { method: "GET" });
+    const authentication = await response.json();
+    
+    if(!authentication.login) {
+      return router.push('/signin');
+    } else {
+      setUserStatus(authentication.user);
+    }
+  }
+      
+  useEffect(() => {
+    const checkMiddleware = () => {
+      if(userStatus) {
+        if(userStatus === 'admin') router.push('/dashboard');
+        else if(userStatus === 'educator') router.push('/content-management/article')
+      } else {
+        checkUser();
+      }
+    }
+    checkMiddleware();
+  }, [userStatus]);
 
   const fetchPaymentRequests = async () => {
     try {
@@ -39,7 +65,8 @@ export default function PencairanPage() {
     fetchPaymentRequests();
   }, []);
 
-  return (
+  if(!userStatus) return <div>Tunggu</div>
+  else return (
     <div className="">
       <Heading1 text={"Daftar tunggu pencairan saldo nasabah"} className="mb-7"  />
       <TablePencairan data={paymentRequests} fetchPaymentRequest={fetchPaymentRequests} />

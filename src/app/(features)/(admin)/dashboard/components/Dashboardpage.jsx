@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import DataChart from "../../components/dataChart";
-import { Line, Bar } from 'react-chartjs-2'
+import { Line, Bar } from 'react-chartjs-2';
+import { useRouter } from "next/navigation";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -43,6 +44,31 @@ export default function DashboardPage() {
   const [topWasteTypes, setTopWasteTypes] = useState();
   const [recentTransactions, setRecentTransactions] = useState();
   const [token, setToken] = useState();
+  const [userStatus, setUserStatus] = useState();
+  const router = useRouter();
+
+  const checkUser = async () => {
+    const response = await fetch('/api/checkUser/auth', { method: "GET" });
+    const authentication = await response.json();
+
+    if(!authentication.login) {
+      return router.push('/signin');
+    } else {
+      setUserStatus(authentication.user);
+    }
+  }
+  
+  useEffect(() => {
+    const checkMiddleware = () => {
+      if(userStatus) {
+        if(userStatus === 'wastecoll') router.push('/transaction')
+        else fetchData();
+      } else {
+        checkUser();
+      }
+    }
+    checkMiddleware();
+  }, [userStatus]);
 
   const fetchData = async () => {
     try {
@@ -53,8 +79,9 @@ export default function DashboardPage() {
       if (!response.ok) {
         throw new Error("Failed to fetch transactions data");
       }
+
       const data = await response.json();
-      console.log(data);
+      
       setTotalSavings(data.data.total_tabungan);
       setTotalWaste(data.data.total_sampah_terkumpul);
       setTotalUsers(data.data.total_nasabah);
@@ -102,7 +129,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const tokenValue = Cookies.get("token");
     setToken(tokenValue);
-    fetchData();
+    checkUser();
   }, []);
 
   if(totalSavings && totalWaste && totalUsers && totalTransactions && monthlyWaste && wasteTypeByMonths && topWasteTypes && recentTransactions && graphData)

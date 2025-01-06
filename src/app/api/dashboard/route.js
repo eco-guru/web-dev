@@ -9,7 +9,7 @@ export async function GET(req) {
   const userRole = cookieStore.get("user-role")?.value;
 
   if (!token) {
-    return new Response(JSON.stringify({ error: "Missing token" }), {
+    return new Response(JSON.stringify({ error: "Missing token", login: false }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
     });
@@ -36,7 +36,7 @@ export async function GET(req) {
 
     if (!response.ok) {
       const responseText = await response.text();
-      console.error("Backend response:", responseText);
+      
       return new Response(
         JSON.stringify({ error: "Failed to fetch dashboard data" }),
         {

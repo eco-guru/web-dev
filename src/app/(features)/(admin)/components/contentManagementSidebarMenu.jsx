@@ -5,7 +5,7 @@ import SidebarItemAdmin from "./sidebarItemAdmin";
 
 export default function ContentManagementSidebarMenu({
   isActive = false,
-  iconUrl = "",
+  iconUrl = ""
 }) {
   const pathName = usePathname();
 

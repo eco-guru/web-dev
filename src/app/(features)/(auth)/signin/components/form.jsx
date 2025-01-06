@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Divider from "../../components/divider";
 import FormAuthContainer from "../../components/formAuthContainer";
 import Heading1 from "../../components/heading1";
@@ -16,6 +16,20 @@ export default function FormSignin() {
   const [usernameOrPhone, setUsernameOrPhone] = useState("");
   const [password, setPassword] = useState("");
 
+  const checkUser = async () => {
+    const response = await fetch('/api/checkUser/auth', { method: "GET" });
+    const authentication = await response.json();
+
+    if(authentication.login) {
+      return router.push('/dashboard');
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
   const handleSignin = async (e) => {
     e.preventDefault();
     try {
@@ -23,9 +37,13 @@ export default function FormSignin() {
         usernameOrPhone: usernameOrPhone,
         password: password,
       });
-
-      if (response.isAdmin) {
+      
+      if (response.isAdmin || response.isEducator) {
         router.push("/dashboard");
+      } else if(response.isWastecoll) {
+        router.push('/transaction');
+      } else if (!response.login) {
+        alert('Login gagal! Web hanya bisa diakses oleh Admin');
       }
     } catch (error) {
       throw new Error(error.message);

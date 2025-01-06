@@ -6,6 +6,7 @@ import SidebarItemAdmin from "./sidebarItemAdmin";
 export default function DataConfigurationSidebarMenu({
   isActive = false,
   iconUrl = "",
+  userStatus
 }) {
   const pathName = usePathname();
 
@@ -22,21 +23,30 @@ export default function DataConfigurationSidebarMenu({
         isActive={isActive}
       />
       <div className="flex flex-col gap-1 ps-[49px] pe-[24px]">
-        <SidebarItemAdmin
-          href={"/data-master/waste-category"}
-          text={"Kategori Sampah"}
-          isActive={isSubmenuIsActive("/data-master/waste-category")}
-        />
-        <SidebarItemAdmin
-          href={"/data-master/waste-type"}
-          text={"Jenis Sampah"}
-          isActive={isSubmenuIsActive("/data-master/waste-type")}
-        />
-        <SidebarItemAdmin
-          href={"/data-master/unit-of-measurement"}
-          text={"Unit Pengukuran"}
-          isActive={isSubmenuIsActive("/data-master/unit-of-measurement")}
-        />
+        {
+          userStatus === "admin" 
+            && <SidebarItemAdmin
+              href={"/data-master/waste-category"}
+              text={"Kategori Sampah"}
+              isActive={isSubmenuIsActive("/data-master/waste-category")}
+            />
+        }
+        {
+          userStatus === "admin"
+            && <SidebarItemAdmin
+              href={"/data-master/waste-type"}
+              text={"Jenis Sampah"}
+              isActive={isSubmenuIsActive("/data-master/waste-type")}
+            />
+        }
+        {
+          userStatus === "admin"
+            && <SidebarItemAdmin
+              href={"/data-master/unit-of-measurement"}
+              text={"Unit Pengukuran"}
+              isActive={isSubmenuIsActive("/data-master/unit-of-measurement")}
+            />
+        }
         <SidebarItemAdmin
           href={"/data-master/waste-price"}
           text={"Harga Sampah"}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Heading1 from "../../../../data-master/components/heading1";
 import InputSubmit from "../../../../data-master/components/input/inputSubmit";
 import InputText from "../../../components/input/inputText";
@@ -35,6 +36,32 @@ export default function CreateArticlePage() {
     { value: 3, label: "News" },
   ];
 
+  const [userStatus, setUserStatus] = useState();
+  const router = useRouter();
+  
+  const checkUser = async () => {
+    const response = await fetch('/api/checkUser/auth', { method: "GET" });
+    const authentication = await response.json();
+  
+    if(!authentication.login) {
+      return router.push('/signin');
+    } else {
+      setUserStatus(authentication.user);
+    }
+  }
+    
+  useEffect(() => {
+    const checkMiddleware = () => {
+      if(userStatus) {
+        if(userStatus === 'wastecoll') router.push('/transaction')
+        else if(userStatus === 'admin' || userStatus === 'educator') fetchUser();
+      } else {
+        checkUser();
+      }
+    }
+    checkMiddleware();
+  }, [userStatus]);
+
   const fetchUser = async () => {
     try {
       const response = await fetch("/api/user/current", {
@@ -59,10 +86,6 @@ export default function CreateArticlePage() {
     setArticleData({ ...articleData, categoryId: Number(e) });
   };
 
-  const handleContentChange = (content) => {
-    setArticleData({ ...articleData, content });
-  };
-
   const handleThumbnailUrlChange = (e) => {
     setArticleData({ ...articleData, thumbnail_url: e.target.value });
   };
@@ -79,8 +102,6 @@ export default function CreateArticlePage() {
       ...articleData,
       created_by: user, content: content
     };
-
-    console.log(articlePayload);
 
     setIsSubmitting(true);
     setError(null);
@@ -121,11 +142,8 @@ export default function CreateArticlePage() {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  return (
+  if(!userStatus) return <div>Tunggu</div>
+  else return (
     <form className="px-28 py-16" onSubmit={handleSubmit}>
       <Heading1 text={"Tambahkan Artikel"} className="mb-7" />
 

@@ -29,14 +29,19 @@ export default async function signIn({ usernameOrPhone, password }) {
     const data = await response.json();
     console.log(data);
 
-    cookieStore.set("token", data.user.token);
-    cookieStore.set("user-role", data.user.role);
-    cookieStore.set("id", data.user.id);
+    if(!await bcrypt.compare("User", data.user.role)) {
+      cookieStore.set("token", data.user.token);
+      cookieStore.set("user-role", data.user.role);
+      cookieStore.set("id", data.user.id);
+    } else {
+      return { data, isAdmin: false, isWastecoll: false, isEducator: false, login: false }
+    }
 
     const isAdmin = await bcrypt.compare("Admin", data.user.role);
-    // const isAdmin = data.user.role === "Admin";
+    const isWastecoll = await bcrypt.compare('Waste collector', data.user.role);
+    const isEducator = await bcrypt.compare('Educator', data.user.role);
 
-    return { data, isAdmin };
+    return { data, isAdmin, isWastecoll, isEducator };
   } catch (error) {
     console.log(error);
     throw new Error(error.message);

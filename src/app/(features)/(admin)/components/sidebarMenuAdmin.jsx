@@ -4,10 +4,32 @@ import { usePathname, useRouter } from "next/navigation";
 import SidebarItemAdmin from "./sidebarItemAdmin";
 import DataConfigurationSidebarMenu from "./dataConfigurationSidebarMenu";
 import ContentManagementSidebarMenu from "./contentManagementSidebarMenu";
+import { useState, useEffect } from "react";
 
 export default function SidebarMenuAdmin({}) {
   const pathtName = usePathname();
+  const [userStatus, setUserStatus] = useState();
   const router = useRouter();
+      
+  const checkUser = async () => {
+    const response = await fetch('/api/checkUser/auth', { method: "GET" });
+    const authentication = await response.json();
+      
+    if(!authentication.login) {
+      return router.push('/signin');
+    } else {
+      setUserStatus(authentication.user);
+    }
+  }
+        
+  useEffect(() => {
+    const checkMiddleware = () => {
+      if(!userStatus) {
+        checkUser();
+      }
+    }
+    checkMiddleware();
+  }, [userStatus]);
 
   const isActive = (path) =>
     pathtName === path || pathtName.startsWith(path + "/");
@@ -39,65 +61,81 @@ export default function SidebarMenuAdmin({}) {
     <>
       <div className="flex flex-col justify-between h-full overflow-y-scroll">
         <ul className="flex flex-col gap-4">
-          <li>
-            <SidebarItemAdmin
-              className=""
-              href={"/dashboard"}
-              text={"Dashboard"}
-              iconUrl={
-                isActive("/dashboard")
-                  ? "/img/admin/home-dark.svg"
-                  : "/img/admin/home.svg"
-              }
-              isActive={isActive("/dashboard")}
-            />
-          </li>
-          <li>
-            <DataConfigurationSidebarMenu
-              iconUrl={
-                isActive("/data-master")
-                  ? "/img/admin/config-dark.svg"
-                  : "/img/admin/config.svg"
-              }
-              isActive={isActive("/data-master")}
-            />
-          </li>
-          <li>
-            <SidebarItemAdmin
-              className=""
-              href={"/transaction"}
-              text={"Transaksi"}
-              iconUrl={
-                isActive("/transaction")
-                  ? "/img/admin/transaction-dark.svg"
-                  : "/img/admin/transaction.svg"
-              }
-              isActive={isActive("/transaction")}
-            />
-          </li>
-          <li>
-            <ContentManagementSidebarMenu
-              iconUrl={
-                isActive("/content-management")
-                  ? "/img/admin/content-management-dark.svg"
-                  : "/img/admin/content-management.svg"
-              }
-              isActive={isActive("/content-management")}
-            />
-          </li>
-          <li>
-            <SidebarItemAdmin
-              className=""
-              href={"/payment-request"}
-              text={"Pencairan"}
-              iconUrl={
-                isActive("/payment-request")
-                  ? "/img/admin/money-dark.svg"
-                  : "/img/admin/money.svg"
-              }
-              isActive={isActive("/payment-request")}
-            />
-          </li>
+          {
+            (userStatus === "admin" || userStatus === 'educator')
+              && <li>
+                  <SidebarItemAdmin
+                    className=""
+                    href={"/dashboard"}
+                    text={"Dashboard"}
+                    iconUrl={
+                      isActive("/dashboard")
+                        ? "/img/admin/home-dark.svg"
+                        : "/img/admin/home.svg"
+                    }
+                    isActive={isActive("/dashboard")}
+                  />
+                </li>
+          }
+          {
+            (userStatus === "admin" || userStatus === "wastecoll") 
+              && <li>
+                <DataConfigurationSidebarMenu
+                  iconUrl={
+                    isActive("/data-master")
+                      ? "/img/admin/config-dark.svg"
+                      : "/img/admin/config.svg"
+                  }
+                  isActive={isActive("/data-master")}
+                  userStatus={userStatus}
+                />
+              </li>
+          }
+          {
+            (userStatus === "wastecoll")
+              && <li>
+                <SidebarItemAdmin
+                  className=""
+                  href={"/transaction"}
+                  text={"Transaksi"}
+                  iconUrl={
+                    isActive("/transaction")
+                      ? "/img/admin/transaction-dark.svg"
+                      : "/img/admin/transaction.svg"
+                  }
+                  isActive={isActive("/transaction")}
+                />
+              </li>
+          }
+          {
+            (userStatus === "admin" || userStatus === "educator")
+             && <li>
+              <ContentManagementSidebarMenu
+                iconUrl={
+                  isActive("/content-management")
+                    ? "/img/admin/content-management-dark.svg"
+                    : "/img/admin/content-management.svg"
+                }
+                isActive={isActive("/content-management")}
+              />
+            </li>
+          }
+          {
+            userStatus === "wastecoll"
+             && <li>
+              <SidebarItemAdmin
+                className=""
+                href={"/payment-request"}
+                text={"Pencairan"}
+                iconUrl={
+                  isActive("/payment-request")
+                    ? "/img/admin/money-dark.svg"
+                    : "/img/admin/money.svg"
+                }
+                isActive={isActive("/payment-request")}
+              />
+            </li>
+          }
         </ul>
         <ul className="flex flex-col gap-4 ">
           <li>
