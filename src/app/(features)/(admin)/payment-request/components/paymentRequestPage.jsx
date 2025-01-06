@@ -18,12 +18,15 @@ export default function PencairanPage() {
 
       if (data?.data) {
         const waitingPaymentRequests = data.data.filter(
-          (item) => item.confirmation_status === "Waiting_For_Confirmation"
+          (item) => item.confirmation_status === "Sedang_diproses" || item.confirmation_status === "Ambil_uang"
         );
 
         const confirmedPaymentRequests = data.data.filter(
-          (item) => item.confirmation_status === "Success"
+          (item) =>
+            item.confirmation_status === "Selesai" ||
+            item.confirmation_status === "Batal"
         );
+
         setPaymentRequests(waitingPaymentRequests);
         setHistoryPaymentRequests(confirmedPaymentRequests);
       }
@@ -38,11 +41,8 @@ export default function PencairanPage() {
 
   return (
     <div className="">
-      <Heading1
-        text={"Daftar tunggu pencairan saldo nasabah"}
-        className="mb-7"
-      />
-      <TablePencairan data={paymentRequests} />
+      <Heading1 text={"Daftar tunggu pencairan saldo nasabah"} className="mb-7"  />
+      <TablePencairan data={paymentRequests} fetchPaymentRequest={fetchPaymentRequests} />
       <br />
       <br />
       <Heading1 text={"Riwayat pencairan saldo nasabah"} className="mb-7" />
