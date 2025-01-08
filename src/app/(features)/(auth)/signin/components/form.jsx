@@ -69,7 +69,7 @@ export default function FormSignin() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <InputCheckbox label={"Remember me"} id={"remember"} />
+        <InputCheckbox label={"Ingat saya"} id={"remember"} />
         <InputSubmit text={"Login"} />
       </form>
     </FormAuthContainer>

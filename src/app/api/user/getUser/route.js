@@ -19,6 +19,10 @@ export async function GET(req) {
       credentials: "include",
     });
 
+    const data = await response.json();
+    console.log(data);
+    console.log(userRole);
+
     if (!response.ok) {
       return new Response(
         JSON.stringify({ error: "Failed to fetch waste category data" }),
@@ -29,7 +33,6 @@ export async function GET(req) {
       );
     }
 
-    const data = await response.json();
 
     return new Response(JSON.stringify(data), {
       status: 200,

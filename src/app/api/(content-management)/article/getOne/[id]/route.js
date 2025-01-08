@@ -7,6 +7,7 @@ export async function GET(req, { params }) {
   const { id } = await params;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const userRole = cookieStore.get('user-role')?.value;
   const url = `${API_BASE_URL}/article/getOne/${id}`; //!INI YANG DIGANTI
 
   try {
@@ -15,9 +16,13 @@ export async function GET(req, { params }) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${token}`,
+        Cookie: `user-role=${encodeURIComponent(userRole)}`
       },
       credentials: "include",
     });
+
+    const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
       return new Response(
@@ -29,7 +34,6 @@ export async function GET(req, { params }) {
       );
     }
 
-    const data = await response.json();
 
     return new Response(JSON.stringify(data), {
       status: 200,

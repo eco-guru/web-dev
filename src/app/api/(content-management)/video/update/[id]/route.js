@@ -14,6 +14,8 @@ export async function PUT(req, { params }) {
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const userRole = cookieStore.get('user-role')?.value;
+  
   const url = `${API_BASE_URL}/videos/update/${id}`;
   try {
     const response = await fetch(url, {
@@ -21,6 +23,7 @@ export async function PUT(req, { params }) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${token}`,
+        Cookie: `user-role=${encodeURIComponent(userRole)}`
       },
       credentials: "include",
       body: JSON.stringify({

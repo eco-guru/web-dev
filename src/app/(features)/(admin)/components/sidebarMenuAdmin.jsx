@@ -5,6 +5,7 @@ import SidebarItemAdmin from "./sidebarItemAdmin";
 import DataConfigurationSidebarMenu from "./dataConfigurationSidebarMenu";
 import ContentManagementSidebarMenu from "./contentManagementSidebarMenu";
 import { useState, useEffect } from "react";
+import DashboardSidebarMenu from "./dashboardSidebarMenu";
 
 export default function SidebarMenuAdmin({}) {
   const pathtName = usePathname();
@@ -64,16 +65,12 @@ export default function SidebarMenuAdmin({}) {
           {
             (userStatus === "admin" || userStatus === 'educator')
               && <li>
-                  <SidebarItemAdmin
-                    className=""
-                    href={"/dashboard"}
-                    text={"Dashboard"}
-                    iconUrl={
-                      isActive("/dashboard")
-                        ? "/img/admin/home-dark.svg"
-                        : "/img/admin/home.svg"
+                  <DashboardSidebarMenu
+                    iconUrl={isActive("/dashboard")
+                      ? "/img/admin/home-dark.svg"
+                      : "/img/admin/home.svg"
                     }
-                    isActive={isActive("/dashboard")}
+                    isActive={isActive('/dashboard')}
                   />
                 </li>
           }

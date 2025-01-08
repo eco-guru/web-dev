@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import DataChart from "../../components/dataChart";
+
 import { Line, Bar } from 'react-chartjs-2';
 import { useRouter } from "next/navigation";
 import {
@@ -139,13 +140,17 @@ export default function DashboardPage() {
           label={"Total Tabungan"}
           value={`Rp ${totalSavings.toLocaleString('id-ID')}`}
           icon={"/img/admin/wallet.svg"}
+          parentStyle="px-2 col-span-3"
+          childStyle="gap-2"
         />
         <DataChart
           label={"Total Sampah Terkumpul"}
           value={`${totalWaste} Kg`}
           icon={"/img/admin/bin.svg"}
+          parentStyle="px-2 col-span-3"
+          childStyle="gap-2"
         />
-        <div className="row-span-5 col-span-6 border-[3px] border-[#E5E9F1] rounded-lg chart px-[28px] py-[19px]">
+        <div className="row-span-5 col-span-5 border-[3px] border-[#E5E9F1] rounded-lg chart px-[28px] py-[19px]">
           <h1 className="font-bold mb-[24px] text-xl">Pemetaan sampah</h1>
           <Bar
             data={graphData}
@@ -183,11 +188,15 @@ export default function DashboardPage() {
           label={"Total Nasabah"}
           value={totalUsers}
           icon={"/img/admin/group.svg"}
+          parentStyle="px-2 col-span-3"
+          childStyle="gap-2"
         />
         <DataChart
           label={"Total Transaksi"}
           value={totalTransactions}
           icon={"/img/admin/transaction-dark.svg"}
+          parentStyle="px-2 col-span-3"
+          childStyle="gap-2"
         />
         <div className="row-span-3 col-span-6 border-[3px] border-[#E5E9F1] px-[24px] py-[31px] rounded-lg chart">
           <h1 className="font-bold mb-[36px] text-xl">Jumlah Sampah Terkumpul</h1>
@@ -230,26 +239,26 @@ export default function DashboardPage() {
           </div>
           <table className="w-full items-center justify-center">
               <thead className="border-b-[3px] border-b-[#E5E9F1]">
-                <tr className="text-start">
-                  <th className="ps-4 py-9 text-left">Nama Nasabah</th>
-                  <th className="text-left">Jenis Sampah</th>
-                  <th className="text-left">Berat Sampah</th>
-                  <th className="pe-4 py-9 text-left">Total Harga Sampah</th>
+                <tr className="">
+                  <th className="ps-4 py-9">Nama Nasabah</th>
+                  <th className="px-4 py-9">Jenis Sampah</th>
+                  <th className="px-4 py-9">Berat Sampah</th>
+                  <th className="pe-4 py-9">Total Harga Sampah</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   recentTransactions.map((value, index) => (
-                    <tr key={index} className="border-b-[3px] border-b-[#E5E9F1]">
+                    <tr key={index} className="border-b-[3px] border-b-[#E5E9F1] gap-[4px]">
                       <td className="ps-4 py-9">
                         <div>
                           <p className="font-semibold text-lg text-black">{value.Users.username}</p>
                           <p className="font-semibold text-sm text-[#B9B9B9]">{new Date(value.transaction_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         </div>
                       </td>
-                      <td>{value.TransactionData.map(data => data.WasteType.type).join(', ')}</td>
-                      <td>{value.TransactionData.reduce((acc, val) => acc + val.quantity, 0)} Kilogram</td>
-                      <td className="pe-4 py-9">Rp {value.total.toLocaleString('id-ID')}</td>
+                      <td className="px-4 py-9 text-center">{value.TransactionData.map(data => data.WasteType.type).join(', ')}</td>
+                      <td className="px-4 py-9 text-center">{value.TransactionData.reduce((acc, val) => acc + val.quantity, 0)} Kilogram</td>
+                      <td className="pe-4 py-9 text-center">Rp {value.total.toLocaleString('id-ID')}</td>
                     </tr>
                   ))
                 }

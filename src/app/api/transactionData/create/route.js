@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 export async function POST(req) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const userRole = cookieStore.get('user-role')?.value;
   
   try {
     const dataRequest = await req.json();
@@ -16,11 +17,15 @@ export async function POST(req) {
         headers: {
           "Content-Type": "application/json",
           Authorization: `${token}`,
+          Cookie: `user-role=${encodeURIComponent(userRole)}`
         },
         credentials: "include",
         body: JSON.stringify(dataRequest)
       }
     );
+
+    const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
       return new Response(
@@ -32,7 +37,6 @@ export async function POST(req) {
       );
     }
 
-    const data = await response.json();
 
     return new Response(JSON.stringify(data), {
       status: 200,

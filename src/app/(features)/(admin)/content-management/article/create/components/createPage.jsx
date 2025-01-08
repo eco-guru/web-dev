@@ -103,16 +103,17 @@ export default function CreateArticlePage() {
       created_by: user, content: content
     };
 
+    console.log(articlePayload);
+
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/article/create`, {
+      const response = await fetch(`/api/article/create`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: Cookies.get("token"),
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(articlePayload),
       });
