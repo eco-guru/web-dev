@@ -26,7 +26,7 @@ export default function UploadVideoModal({ openModal, closeModal, updateVideoLis
   const categoryOptions = [
     { value: 1, label: "Recycling Tutorials" },
     { value: 2, label: "Waste Reduction Tips" },
-    { value: 3, label: "News" },
+    { value: 3, label: "Composting Trick" },
   ];
 
   // Daftar video (dapat diambil dari API atau state global)

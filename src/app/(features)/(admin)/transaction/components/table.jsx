@@ -31,6 +31,16 @@ export default function TableSession() {
     }
   };
 
+  const deleteData = async (id) => {
+    alert("Apakah anda yakin akan menghapus transaksi ini?");
+    const response = await fetch(`/api/transaction/delete/${id}`, { method: 'DELETE' });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete transaction data");
+    }
+    await fetchData();
+  }
+
   const openModal = (event, data, id) => {
     if (event?.preventDefault) event.preventDefault();
 
@@ -71,8 +81,7 @@ export default function TableSession() {
               <TdDataMaster>
                 <div className="flex gap-4">
                   <PrimaryLink text={"Lihat"} href={`/transaction/result/detail/${value.id}`} />
-                  <PrimaryLink text={"Edit"} />
-                  <DangerLink text={"Hapus"} />
+                  <DangerLink text={"Hapus"} onClick={() => {deleteData(value.id)}} />
                 </div>
               </TdDataMaster>
             </tr>

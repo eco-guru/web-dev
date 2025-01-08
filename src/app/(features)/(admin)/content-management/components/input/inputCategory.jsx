@@ -17,6 +17,7 @@ export default function InputSelect({
         onChange={(e) => onChange(e.target.value)} // Call onChange with selected value
         className="w-[70%] outline-none border border-black bg-white rounded-lg py-3 px-4 text-xl font-bold"
       >
+        <option disabled>Choose article category</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

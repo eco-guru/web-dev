@@ -31,9 +31,9 @@ export default function CreateArticlePage() {
 
   // Hardcoded category options
   const categoryOptions = [
-    { value: 1, label: "Recycling Tutorials" },
-    { value: 2, label: "Waste Reduction Tips" },
-    { value: 3, label: "News" },
+    { value: 1, label: "Recycling" },
+    { value: 2, label: "Composting" },
+    { value: 3, label: "Reducing Waste" },
   ];
 
   const [userStatus, setUserStatus] = useState();
