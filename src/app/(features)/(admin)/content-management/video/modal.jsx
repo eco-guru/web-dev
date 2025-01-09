@@ -97,13 +97,11 @@ export default function UploadVideoModal({ openModal, closeModal, updateVideoLis
     const currentDate = new Date().toISOString();
 
     try {
-      const response = await fetch(`${API_BASE_URL}/videos/create`, {
+      const response = await fetch(`/api/video/create`, {
         method: "POST",
-        headers: {
+        headers: { 
           "Content-Type": "application/json",
-          Authorization: token,
         },
-        credentials: "include",
         body: JSON.stringify({
           title, // Kirim judul video yang baru ditambahkan
           description,

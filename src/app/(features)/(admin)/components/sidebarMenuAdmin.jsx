@@ -60,7 +60,7 @@ export default function SidebarMenuAdmin({}) {
 
   return (
     <>
-      <div className="flex flex-col justify-between h-full overflow-y-scroll">
+      <div className="flex flex-col justify-between h-full overflow-y-scroll" style={{ overflowY: 'scroll', msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
         <ul className="flex flex-col gap-4">
           {
             (userStatus === "admin" || userStatus === 'educator')

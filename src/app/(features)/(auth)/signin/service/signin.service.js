@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 
 export default async function signIn({ usernameOrPhone, password }) {
   const cookieStore = await cookies();
+  console.log(`${API_BASE_URL}/users/login`);
   try {
     const response = await fetch(`${API_BASE_URL}/users/login`, {
       method: "POST",
@@ -21,13 +22,13 @@ export default async function signIn({ usernameOrPhone, password }) {
 
     console.log(response);
     
+    const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
       throw new Error("Invalid username or password");
     }
 
-    const data = await response.json();
-    console.log(data);
 
     if(!await bcrypt.compare("User", data.user.role)) {
       cookieStore.set("token", data.user.token);
