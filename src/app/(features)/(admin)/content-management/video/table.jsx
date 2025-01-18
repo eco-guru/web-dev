@@ -13,7 +13,7 @@ import { convertDate } from "@/app/service/convertDate.service";
 import EditModal from "./editModal";
 
 export default function TableVideo({ isDataUpdated }) {
-  const [videos, setVideos] = useState([]);
+  const [ videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,6 +25,8 @@ export default function TableVideo({ isDataUpdated }) {
       ).map((id) => response.find((video) => video.id === id));
 
       uniqueVideos.sort((a, b) => a.video_order - b.video_order);
+
+      console.log("video: ",uniqueVideos);
 
       setVideos(uniqueVideos);
     } catch (error) {
@@ -56,13 +58,18 @@ export default function TableVideo({ isDataUpdated }) {
     }
   };
 
-  const handleSave = (updatedVideo) => {
-    setVideos((prevVideos) =>
-      prevVideos.map((video) =>
-        video.id === updatedVideo.id ? updatedVideo : video
-      )
-    );
+  const handleSave = async (updatedVideo) => {
+    await fetchData()
+    // setVideos((prevVideos) =>
+    //   prevVideos.map((video) =>
+    //     video.id === updatedVideo.id ? updatedVideo : video
+    //   )
+    // );
   };
+
+  useEffect(() => {
+    console.log(videos);
+  }, [videos])
 
   const updateVideoData = async (id, updatedData) => {
     try {

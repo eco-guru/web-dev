@@ -5,19 +5,21 @@ export default function InputSelect({
   id,
   label,
   onChange,
+  value = '',
   disabled = false,
 }) {
   return (
     <div className="flex justify-between items-center">
       <Label className="shrink-0 text-xl font-bold" text={label} id={id} />
       <select
+        value={value}
         disabled={disabled}
         name={id}
         id={id}
         onChange={(e) => onChange(e.target.value)} // Call onChange with selected value
         className="w-[70%] outline-none border border-black bg-white rounded-lg py-3 px-4 text-xl font-bold"
       >
-        <option disabled>Choose article category</option>
+        <option value="" disabled>Choose article category</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

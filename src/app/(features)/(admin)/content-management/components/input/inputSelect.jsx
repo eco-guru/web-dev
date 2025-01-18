@@ -5,8 +5,10 @@ export default function InputSelect({
   id,
   label,
   onChange,
+  value,
   disabled = false,
 }) {
+  console.log(value);
   return (
     <div className="flex flex-col gap-2">
       <Label className="shrink-0 text-xl font-bold" text={label} id={id} />
@@ -14,7 +16,8 @@ export default function InputSelect({
         disabled={disabled}
         name={id}
         id={id}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
+        value={value}
         className="w-full px-5 py-4 rounded-[4px] text-[16px] border "
       >
         {options.map((option) => (

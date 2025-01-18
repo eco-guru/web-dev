@@ -1,12 +1,13 @@
 "use server";
 
+import { API_BASE_URL } from "@/app/const/const";
 import { cookies } from "next/headers";
 // src/app/api/waste-category/[id]/route.js
 import { NextResponse } from "next/server";
 
 export async function DELETE(request, { params }) {
   const { id } = params;
-  const url = "http://localhost:5000/api/waste-category/delete";
+  const url = `${API_BASE_URL}/waste-category/delete`;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const userRole = cookieStore.get("user-role")?.value;

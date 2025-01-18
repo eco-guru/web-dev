@@ -1,10 +1,11 @@
 "use server";
 
+import { API_BASE_URL } from "@/app/const/const";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const url = "http://localhost:5000/api/waste-category/create";
+  const url = `${API_BASE_URL}/waste-category/create`;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const userRole = cookieStore.get("user-role")?.value;

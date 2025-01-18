@@ -28,7 +28,7 @@ export default function UserProfilePage() {
       console.log(data);
 
       setUsername(data.data.username);
-      setPhone(data.data.phone);
+      setPhone(data.data.email);
       setPreviewUrl(data.data.profile_picture);
     } catch (error) {
       console.error(error);
@@ -96,7 +96,7 @@ export default function UserProfilePage() {
             onchange={(e) => setUsername(e.target.value)}
           />
           <InputTextProfile
-            label={"No Handphone"}
+            label={"Email"}
             id={"noHandphone"}
             value={phone}
             onchange={(e) => setPhone(e.target.value)}

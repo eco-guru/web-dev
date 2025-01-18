@@ -13,7 +13,7 @@ import Trix from "../TrixEditorComponent";
 export default function CreateArticlePage() {
   const [articleData, setArticleData] = useState({
     title: "",
-    categoryId: "",
+    categoryId: '',
     content: "",
     thumbnail_url: "",
     isPublished: true,
@@ -165,7 +165,7 @@ export default function CreateArticlePage() {
         <InputSelect
           label={"Kategori Artikel"}
           options={categoryOptions} // Use the category options
-          // value={articleData.categoryId} // Controlled input for category
+          value={articleData.categoryId} // Controlled input for category
           onChange={handleCategoryChange} // Update category state when changed
         />
       </div>
