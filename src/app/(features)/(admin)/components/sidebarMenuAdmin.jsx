@@ -140,7 +140,7 @@ export default function SidebarMenuAdmin({}) {
               <SidebarItemAdmin
                 className=""
                 href={"/user-management"}
-                text={"Kelola Admin"}
+                text={"Kelola Akun"}
                 iconUrl={
                   isActive("/user-management")
                     ? "/img/admin/setting-dark.svg"
