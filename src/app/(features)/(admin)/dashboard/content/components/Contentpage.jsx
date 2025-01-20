@@ -43,6 +43,7 @@ export default function ContentPage() {
   const [token, setToken] = useState();
   const [userStatus, setUserStatus] = useState();
   const router = useRouter();
+  const [loading, setIsLoading] = useState(true);
 
   const checkUser = async () => {
     const response = await fetch('/api/checkUser/auth', { method: "GET" });
@@ -91,6 +92,7 @@ export default function ContentPage() {
       setFluctuation(data.data.fluctuationContent);
       setNewestArticle(data.data.newestArticle);
       setNewestVideo(data.data.newestVideo);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -274,6 +276,6 @@ export default function ContentPage() {
         </div>
       </div>
     );
-  else
-    return <div>Loading...</div>
+  else if(loading) return <div>Loading...</div>
+  else return <div>Belum ada artikel atau video yang ditambahkan </div>
 }
