@@ -59,12 +59,7 @@ export default function TableVideo({ isDataUpdated }) {
   };
 
   const handleSave = async (updatedVideo) => {
-    await fetchData()
-    // setVideos((prevVideos) =>
-    //   prevVideos.map((video) =>
-    //     video.id === updatedVideo.id ? updatedVideo : video
-    //   )
-    // );
+    await fetchData();
   };
 
   useEffect(() => {

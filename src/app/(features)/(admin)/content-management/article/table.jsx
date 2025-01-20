@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { fetchArticles, updateArticle, deleteArticle } from "./service/article.service";
 import { convertDate } from "@/app/service/convertDate.service";
 import Link from "next/link";
+import Th from "../components/table/th";
 
 export default function TableArticle() {
   const [articles, setArticles] = useState(null);
@@ -51,7 +52,15 @@ export default function TableArticle() {
   return (
     <div>
       <table className="w-full table-fixed">
-        <Thead />
+        <Thead>
+          <Th>Thumbnail</Th>
+          <Th>Judul</Th>
+          <Th>Tanggal</Th>
+          <Th>Penayangan</Th>
+          <Th>Kategori</Th> 
+          <Th>Urutan Konten</Th>
+          <Th>Aksi</Th>
+        </Thead>
         <tbody>
           {articles?.map((article, index) => (
             <tr key={article.id}>

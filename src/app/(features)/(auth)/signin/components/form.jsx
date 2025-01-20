@@ -46,7 +46,7 @@ export default function FormSignin() {
         alert('Login gagal! Web hanya bisa diakses oleh Admin');
       }
     } catch (error) {
-      throw new Error(error.message);
+      alert(error.message);
     }
   };
 

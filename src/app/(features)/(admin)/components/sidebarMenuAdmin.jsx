@@ -135,19 +135,21 @@ export default function SidebarMenuAdmin({}) {
           }
         </ul>
         <ul className="flex flex-col gap-4 ">
-          <li>
-            <SidebarItemAdmin
-              className=""
-              href={""}
-              text={"Pengaturan"}
-              iconUrl={
-                isActive("/setting")
-                  ? "/img/admin/setting-dark.svg"
-                  : "/img/admin/setting.svg"
-              }
-              isActive={isActive("/setting")}
-            />
-          </li>
+          {
+            userStatus === "admin" && <li>
+              <SidebarItemAdmin
+                className=""
+                href={"/user-management"}
+                text={"Kelola Admin"}
+                iconUrl={
+                  isActive("/user-management")
+                    ? "/img/admin/setting-dark.svg"
+                    : "/img/admin/setting.svg"
+                }
+                isActive={isActive("/user-management")}
+              />
+            </li>
+          }
           <li>
             <SidebarItemAdmin
               className=""
