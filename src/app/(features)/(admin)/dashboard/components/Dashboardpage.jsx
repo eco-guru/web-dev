@@ -45,6 +45,7 @@ export default function DashboardPage() {
   const [topWasteTypes, setTopWasteTypes] = useState();
   const [recentTransactions, setRecentTransactions] = useState();
   const [token, setToken] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const [userStatus, setUserStatus] = useState();
   const router = useRouter();
 
@@ -91,6 +92,7 @@ export default function DashboardPage() {
       setWasteTypeByMonthsSettings(data.data.jenis_sampah_per_bulan);
       setTopWasteTypes(data.data.jenis_sampah_terbanyak);
       setRecentTransactions(data.data.transaksi_terkini);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -267,6 +269,6 @@ export default function DashboardPage() {
         </div>
       </div>
     );
-  else
-    return <div>Loading...</div>
+  else if(isLoading) return <div>Loading...</div>
+  else return <div>Belum ada data yang ditambahkan</div>
 }
