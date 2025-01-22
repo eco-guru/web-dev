@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
             <FormAuthContainer>
                 <div className="w-full flex gap-4 mb-7">
                     <label htmlFor="Lang">Pilih bahasa (choose language) : </label>
-                    <select id="Lang" className="w-80 h-5" value={language} onChange={(e) => setLanguage(e.target.value)}>
+                    <select id="Lang" className="w-80 h-max text-black" value={language} onChange={(e) => setLanguage(e.target.value)}>
                         <option value="EN">English</option>
                         <option value="IN">Indonesia</option>
                     </select>
