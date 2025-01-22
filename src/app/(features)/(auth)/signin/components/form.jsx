@@ -70,6 +70,9 @@ export default function FormSignin() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <InputCheckbox label={"Ingat saya"} id={"remember"} />
+        <div className="flex gap-1 items-center justify-center">
+          <a href="/privacy-policy" className="text-blue-400 underline">Baca kebijakan privasi Runtah disini</a>
+        </div>
         <InputSubmit text={"Login"} />
       </form>
     </FormAuthContainer>
